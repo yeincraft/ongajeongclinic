@@ -1,6 +1,62 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- Firebase -->
+<script defer src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+
+  // ① 초기화
+  const app = firebase.initializeApp({
+    apiKey: "AIza…",          // 콘솔 > 설정 > 일반
+    authDomain: "ongajeongclinic.firebaseapp.com",
+    projectId: "ongajeongclinic",
+  });
+  const auth = firebase.auth();
+  const db   = firebase.firestore();
+
+  // ② 로그인 / 로그아웃
+  document.getElementById('login').onclick = ()=> auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  document.getElementById('logout').onclick= ()=> auth.signOut();
+
+  // ③ 글 목록 실시간 렌더
+  const list = document.getElementById('posts');
+  db.collection('posts').orderBy('created','desc')
+    .onSnapshot(snap=>{
+      list.innerHTML='';
+      snap.forEach(doc=>{
+        const d=doc.data();
+        list.innerHTML += `<li><h4>${d.title}</h4><p>${d.body}</p><small>${d.name}</small></li>`;
+      });
+    });
+
+  // ④ 글 작성
+  const form = document.getElementById('new-post');
+  form.onsubmit = e=>{
+    e.preventDefault();
+    const user = auth.currentUser;
+    if(!user){ alert('로그인 후 작성 가능합니다'); return;}
+    db.collection('posts').add({
+      uid:   user.uid,
+      name:  user.displayName||user.email,
+      title: form.title.value,
+      body:  form.body.value,
+      created: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(()=> form.reset());
+  };
+  /* 로그인 상태에 따라 버튼·폼 보여 주기 */
+  auth.onAuthStateChanged(user=>{
+    document.getElementById('login').style.display  = user ? 'none'  : 'inline-block';
+    document.getElementById('logout').style.display = user ? 'inline-block' : 'none';
+    document.getElementById('new-post').style.display = user ? 'block' : 'none';
+  });
+
+});
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>온가정의원 | 가족처럼 따뜻한 진료</title>
@@ -304,26 +360,24 @@
     </div>
   </section>
 
-  <section id="appointment" class="appointment">
-    <h2>진료 예약</h2>
-    <form onsubmit="submitForm(event)">
-      <input type="text" placeholder="성함" required />
-      <input type="tel" placeholder="연락처" required />
-      <select required>
-        <option value="">진료과목 선택</option>
-        <option>내과 진료</option>
-        <option>예방접종</option>
-        <option>경미한 외상</option>
-        <option>건강검진</option>
-        <option>도수치료</option>
-          <option>미용 · 체형 시술</option>
-      </select>
-      <input type="date" required />
-      <textarea rows="4" placeholder="증상 또는 요청사항 (선택)"></textarea>
-      <button class="btn-primary" type="submit">예약 요청</button>
-    </form>
-    <p id="success" style="margin-top: 1rem; color: var(--primary); display: none;">예약 요청이 접수되었습니다! 곧 연락드리겠습니다.</p>
-  </section>
+  <section id="board" class="board">
+  <h2>공지·이용후기 게시판</h2>
+
+  <!-- 로그인 상태 -->
+  <button id="login">로그인</button>
+  <button id="logout" style="display:none">로그아웃</button>
+
+  <!-- 글 목록 -->
+  <ul id="posts"></ul>
+
+  <!-- 글쓰기 폼 -->
+  <form id="new-post">
+    <input  name="title" placeholder="제목" required>
+    <textarea name="body"  placeholder="내용" rows="5" required></textarea>
+    <button class="btn-primary">글 작성</button>
+  </form>
+</section>
+
 
   <footer>
     <p>온가정의원 ⎜ 부산 연제구 명륜로 10 한양타워빌딩 2층 (거제동 150-6) ⎜ 051-715-7582 (치료빨리)</p>
