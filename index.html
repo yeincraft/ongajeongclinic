@@ -10,11 +10,15 @@
 document.addEventListener('DOMContentLoaded', ()=>{
 
   // ① 초기화
-  const app = firebase.initializeApp({
-    apiKey: "AIza…",          // 콘솔 > 설정 > 일반
-    authDomain: "ongajeongclinic.firebaseapp.com",
-    projectId: "ongajeongclinic",
-  });
+   const firebaseConfig = {
+  apiKey: "AIzaSyDKYKQWMsq5Pz9SmEiQQAijw8HJNv_DZ_o",
+  authDomain: "ongajeong-c5f8a.firebaseapp.com",
+  projectId: "ongajeong-c5f8a",
+  storageBucket: "ongajeong-c5f8a.firebasestorage.app",
+  messagingSenderId: "260472430310",
+  appId: "1:260472430310:web:ef8992f4205e237699e527",
+  measurementId: "G-9J2L70N8KK"
+};
   const auth = firebase.auth();
   const db   = firebase.firestore();
 
