@@ -6,61 +6,6 @@
 <script defer src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', ()=>{
-
-  // ① 초기화
-   const firebaseConfig = {
-  apiKey: "AIzaSyDKYKQWMsq5Pz9SmEiQQAijw8HJNv_DZ_o",
-  authDomain: "ongajeong-c5f8a.firebaseapp.com",
-  projectId: "ongajeong-c5f8a",
-  storageBucket: "ongajeong-c5f8a.firebasestorage.app",
-  messagingSenderId: "260472430310",
-  appId: "1:260472430310:web:ef8992f4205e237699e527",
-  measurementId: "G-9J2L70N8KK"
-};
-  const auth = firebase.auth();
-  const db   = firebase.firestore();
-
-  // ② 로그인 / 로그아웃
-  document.getElementById('login').onclick = ()=> auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  document.getElementById('logout').onclick= ()=> auth.signOut();
-
-  // ③ 글 목록 실시간 렌더
-  const list = document.getElementById('posts');
-  db.collection('posts').orderBy('created','desc')
-    .onSnapshot(snap=>{
-      list.innerHTML='';
-      snap.forEach(doc=>{
-        const d=doc.data();
-        list.innerHTML += `<li><h4>${d.title}</h4><p>${d.body}</p><small>${d.name}</small></li>`;
-      });
-    });
-
-  // ④ 글 작성
-  const form = document.getElementById('new-post');
-  form.onsubmit = e=>{
-    e.preventDefault();
-    const user = auth.currentUser;
-    if(!user){ alert('로그인 후 작성 가능합니다'); return;}
-    db.collection('posts').add({
-      uid:   user.uid,
-      name:  user.displayName||user.email,
-      title: form.title.value,
-      body:  form.body.value,
-      created: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(()=> form.reset());
-  };
-  /* 로그인 상태에 따라 버튼·폼 보여 주기 */
-  auth.onAuthStateChanged(user=>{
-    document.getElementById('login').style.display  = user ? 'none'  : 'inline-block';
-    document.getElementById('logout').style.display = user ? 'inline-block' : 'none';
-    document.getElementById('new-post').style.display = user ? 'block' : 'none';
-  });
-
-});
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>온가정의원 | 가족처럼 따뜻한 진료</title>
@@ -86,7 +31,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <style>
     :root {
-      --primary: #4e8cff;
+      --primary: #FF7A1A;
       --accent: #ffb74d;
       --bg: #f8fafc;
       --text: #333;
@@ -155,8 +100,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
       transition: background 0.3s;
     }
     .btn-primary:hover {
-      background: #3d73d1;
+      background: #ffb74d;
     }
+    .btn-call{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:44px; height:44px; border-radius:999px;
+  background:#FF7A1A; color:#fff; text-decoration:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn-call:hover{ transform:translateY(-1px); box-shadow:0 12px 28px rgba(0,0,0,.18); }
+.btn-call:active{ transform:translateY(0); box-shadow:0 6px 18px rgba(0,0,0,.12); }
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+
     section {
       padding: 4rem 1.5rem;
       max-width: 1200px;
@@ -264,13 +221,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 }
 
 .slider-wrapper {
-  
+  position: relative;
   max-width: 48rem;
   margin: 0 auto;
 }
 
 .slider {
-  position: relative;
+  
   display: flex;
   aspect-ratio: 16/9;
   overflow-x: hidden;
@@ -319,22 +276,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
         <a href="#doctors">의료진</a>
         <a href="#testimonials">후기</a>
         <a href="#info">안내</a>
-        <a href="#board">커뮤니티</a>
+        <a href="#contact">예약 및 문의</a>
       </nav>
     </div>
   </header>
 <section class="container">
   <div class="slider-wrapper">
     <div class="slider">
-    <img id="slide-1" src="on1.webp"/>
-    <img id="slide-2" src="on2.webp"/>
-    <img id="slide-3" src="on3.webp"/>
-    <img id="slide-4" src="on4.webp"/>
+    <img id="slide-1" src="wegovyBanner.png"/>
+    <img id="slide-2" src="on1.webp"/>
+    <img id="slide-3" src="on2.webp"/>
+    <img id="slide-4" src="on3.webp"/>
+    <img id="slide-5" src="on4.webp"/>
     <div class="slider-nav">
     <a href="#slide-1"></a>
     <a href="#slide-2"></a>
     <a href="#slide-3"></a>
     <a href="#slide-4"></a>
+    <a href="#slide-5"></a>
   </div>
     </div>
   </div>
@@ -343,7 +302,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   <section class="hero">
     <h1>가족처럼 따뜻한 진료,<br/>온가정의원</h1>
     <p>사랑하는 가족을 돌보듯 정성을 다하는 가정의학과 전문 진료를 만나보세요.</p>
-    <button class="btn-primary" onclick="document.getElementById('appointment').scrollIntoView({behavior:'smooth'})">진료 예약하기</button>
+    <button class="btn-primary" id="go-reserve">진료 예약하기</button>
+
   </section>
 
   <section id="services" class="services">
@@ -387,6 +347,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             • 부산대병원 가정의학과 전문의<br />• 우리소아과 부원장<br />• e-편한의원 원장<br />
             • 구세산부인과 가정의학과 과장<br />• 부산제일병원(신경외과) 부원장<br />• 스마트병원 내과 과장
           </p>
+          <br />
           <h4>학회 활동</h4>
           <p>• 대한가정의학회<br />• 대한근골격계초음파학회<br />• 한국근골격계질환연구회<br />• 대한IMS학회<br />• 대한비만체형학회<br />• 대한미용성형외과학회<br />• 대한정주의학회<br />• 대한비타민연구회<br />• 대한일차진료학회<br />• 대한줄기세포치료학회
           </p>
@@ -432,22 +393,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
     </div>
   </section>
 
-  <section id="board" class="board">
-  <h2>커뮤니티</h2>
+  <section id="contact" class="contact">
+      <h2>예약 및 문의</h2>
+      
+      <h2>도수치료 예약 010-5800-8961</h2>
+      <h2>기타 예약 및 문의 051-715-7582</h2>
+      <!-- 아이콘형 버튼 -->
+<a href="tel:+8210122080530" class="btn-call" aria-label="전화하기">
+  <!-- 예: SVG 아이콘 -->
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.25 11.36 11.36 0 003.56.57 1 1 0 011 1v3.5a1 1 0 01-1 1A17.5 17.5 0 012 6a1 1 0 011-1h3.5a1 1 0 011 1c0 1.23.2 2.43.57 3.56a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+  </svg>
+  <span class="sr-only">전화하기</span>
 
-  <!-- 로그인 상태 -->
-  <button id="login">로그인</button>
-  <button id="logout" style="display:none">로그아웃</button>
+  
+</a>
 
-  <!-- 글 목록 -->
-  <ul id="posts"></ul>
-
-  <!-- 글쓰기 폼 -->
-  <form id="new-post">
-    <input  name="title" placeholder="제목" required>
-    <textarea name="body"  placeholder="내용" rows="5" required></textarea>
-    <button class="btn-primary">글 작성</button>
-  </form>
 </section>
 
 
@@ -478,6 +439,14 @@ function submitForm(e){
 }
 
   </script>
+
+<script>
+  document.getElementById('go-reserve').addEventListener('click', () => {
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+
+
   <script>
   function copyAddress(){
     const addr='부산광역시 연제구 명륜로 10, 한양타워빌딩 2층';
