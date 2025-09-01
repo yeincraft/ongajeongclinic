@@ -455,5 +455,77 @@ function submitForm(e){
       .catch(()=>alert('복사에 실패했습니다. 브라우저 설정을 확인해주세요.'));
   }
 </script>
+  <script>
+(function(){
+  const slider = document.querySelector('.slider');
+  if (!slider) return;
+  const slides = slider.querySelectorAll(':scope > *');
+  if (slides.length <= 1) return;
+
+  // 사용성: 모션 줄이기 설정이면 자동재생 끔
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let i = 0;
+  const INTERVAL = 4000; // 4초마다 다음 슬라이드
+  let timer;
+
+  const go = (idx) => {
+    const target = slides[idx];
+    if (!target) return;
+    slider.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+    i = idx;
+    updateDots();
+  };
+
+  const next = () => go((i + 1) % slides.length);
+
+  const start = () => { stop(); timer = setInterval(next, INTERVAL); };
+  const stop  = () => { if (timer) clearInterval(timer); };
+
+  // 유저가 마우스 올리거나 터치하면 일시정지
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('touchstart', stop, { passive: true });
+  slider.addEventListener('touchend', start);
+
+  // 페이지가 숨겨지면 일시정지
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? stop() : start();
+  });
+
+  // 스크롤(수동 스와이프) 후 인덱스 동기화
+  let t;
+  slider.addEventListener('scroll', () => {
+    stop();
+    clearTimeout(t);
+    t = setTimeout(() => {
+      const x = slider.scrollLeft;
+      let nearest = 0, min = Infinity;
+      slides.forEach((s, idx) => {
+        const d = Math.abs(s.offsetLeft - x);
+        if (d < min) { min = d; nearest = idx; }
+      });
+      i = nearest;
+      updateDots();
+      start();
+    }, 120);
+  });
+
+  // (선택) 점 네비와 동기화
+  const dots = document.querySelectorAll('.slider-nav a');
+  function updateDots(){
+    dots.forEach((d, idx) => d.classList.toggle('is-active', idx === i));
+  }
+  dots.forEach((d, idx) => {
+    d.addEventListener('click', (e) => {
+      e.preventDefault(); // #앵커 점프 대신 내부 스크롤만
+      go(idx);
+    });
+  });
+
+  start();
+})();
+</script>
+
 </body>
 </html>
