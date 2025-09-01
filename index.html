@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   height: 0.5rem;
   border-radius: 50%;
   background-color: #fff;
-  opacity: 0.75%;
+  opacity: 0.75;
   transition: opacity ease 250ms;
 }
 
@@ -350,28 +350,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
     <h2>진료과목</h2>
     <div class="cards">
       <div class="card"><img src="https://img.icons8.com/fluency/96/stethoscope.png" alt="" />
-        <h3>내과 진료</h3>
-        <p>감기·독감, 고혈압, 당뇨 등 만성질환 관리</p>
+        <h3>일반적 진료</h3>
+        <p>감기·독감 등 급성 질환<br>고혈압, 당뇨병 등 만성 질환<br>기타 피부 질환 등</p>
       </div>
       <div class="card"><img src="https://img.icons8.com/?size=100&id=3fhpUBEis65z&format=png&color=000000" alt="" />
-        <h3>예방접종</h3>
-        <p>독감, 대상포진, 자궁경부암, 가다실9, 코로나, 여행자 백신 등</p>
+        <h3>통증 진료</h3>
+        <p>도수치료, 체외충격파<br>프롤로 주사, 신경치료 주사<br>근골격계 초음파 검사</p>
       </div>
       <div class="card"><img src="https://img.icons8.com/?size=100&id=A0j1OeoSzJCZ&format=png&color=000000" alt="" />
-        <h3>경미한 외상</h3>
-        <p>찢김·타박상 봉합 및 소독 처치, (골수/혈액) 줄기세포 치료 등</p>
+        <h3>외상 진료</h3>
+        <p>열상 봉합<br>화상 처치 등</p>
       </div>
       <div class="card"><img src="https://img.icons8.com/?size=100&id=QzXmSAP6522k&format=png&color=000000" alt="" />
-        <h3>건강검진</h3>
-        <p>독감 신속항원 검사, IgG 90종 알러지 검사, 치매 혈액 검사 등</p>
+        <h3>각종 검사</h3>
+        <p>감염병 신속항원검사<br>급/만성 알러지 검사<br>마약검출 검사<br>경동맥/갑상선 초음파 검사</p>
       </div>
       <div class="card"><img src="https://img.icons8.com/?size=100&id=0FTtryGjGjmm&format=png&color=000000" alt="" />
         <h3>도수치료</h3>
-        <p>근골격계 통증 재활·교정, 체외충격파 치료 등</p>
+        <p>근골격계 통증 재활·교정<br>체외충격파 치료</p>
       </div>
       <div class="card"><img src="https://img.icons8.com/?size=100&id=VgdzKroi4N9M&format=png&color=000000" alt="" />
-        <h3>미용 · 체형 시술</h3>
-        <p>보톡스, 삭센다, 신데렐라/백옥 주사, 셀룰라이트 분해주사 등</p>
+        <h3>미용 시술</h3>
+        <p>보톡스<br>위고비<br>메조테라피</p>
       </div>
     </div>
   </section>
@@ -383,9 +383,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
         <img src="doctor.jpeg" alt="Doctor" />
         <div class="profile-content">
           <h4>서상도 원장</h4>
-          <p>환자를 가족처럼 돌보는 따뜻한 전문의<br />• 부산대 의과대학 졸업 <br />
+          <p>환자를 가족처럼 돌보는 따뜻한 전문의<br />• 부산대 의과대학 졸업<br />
             • 부산대병원 가정의학과 전문의<br />• 우리소아과 부원장<br />• e-편한의원 원장<br />
             • 구세산부인과 가정의학과 과장<br />• 부산제일병원(신경외과) 부원장<br />• 스마트병원 내과 과장
+          </p>
+          <h4>학회 활동</h4>
+          <p>• 대한가정의학회<br />• 대한근골격계초음파학회<br />• 한국근골격계질환연구회<br />• 대한IMS학회<br />• 대한비만체형학회<br />• 대한미용성형외과학회<br />• 대한정주의학회<br />• 대한비타민연구회<br />• 대한일차진료학회<br />• 대한줄기세포치료학회
           </p>
         </div>
       </div>
@@ -418,7 +421,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       <div class="address-box"><div class="address">부산광역시 연제구 명륜로 10, 한양타워빌딩 2층</div><button class="copy-btn" onclick="copyAddress()">복사</button></div>
       <div class="hour">
         <ul>
-          <li><b>월 · 화 · 목</b><span>AM 09:00 ~ PM 06:30</span></li>
+          <li><b>월 · 화 · 목 · 금</b><span>AM 09:00 ~ PM 06:30</span></li>
           <li><b>수 요 일</b><span>AM 09:00 ~ PM 01:00</span></li>
           <li><b>토 요 일</b><span>AM 09:00 ~ PM 01:00</span></li>
           <li><b>일 요 일</b><span>정기휴무</span></li>
