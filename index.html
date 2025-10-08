@@ -147,7 +147,7 @@
     .info .hour li{display:flex;justify-content:space-between;font-size:1rem;border-bottom:1px dashed #e0e0e0;padding-bottom:.3rem;}
     .info .hour li b{color:var(--primary);min-width:90px;}
     .info .hour p{font-size:.9rem;color:#555;text-align:right;}
-    @media(max-width:600px){.info .hour li{flex-direction:column;gap:.2rem;}}
+    @media(max-width:600px){.slider{aspect-ratio: 4/5;} .info .hour li{flex-direction:column;gap:.2rem;}}
     .doctors .profiles{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
     .profile{background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.05);overflow:hidden;}
     .profile img{width:100%;height:280px;object-fit:cover;}
@@ -215,19 +215,19 @@
 }
 
 .slider {
-  display: flex;
-  aspect-ratio: 16/9;
+  width: 100%;
+  position: relative;
+  aspect-ratio: 16 / 9;   /* PC 기준 비율 유지 */
   overflow: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
   border-radius: 0.5rem;
 }
 
 .slider img {
-  flex: 1 0 100%;
-  scroll-snap-align: start;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* 이미지 비율 유지하며 꽉 채움 */
+  object-position: center; /* 중앙 기준으로 자르기 */
+  flex: 0 0 100%;
 }
 
 .slider-nav {
@@ -266,7 +266,7 @@
 .modal header{display:flex; justify-content:space-between; align-items:center; margin-bottom:.75rem}
 .modal h3{font-size:1.25rem; margin:0; color:var(--primary);}
 .modal .body{color:#444; line-height:1.55; font-size:1rem;
-padding-left: 2rem}
+padding-left: 1rem}
 .modal .actions{display:flex; gap:.5rem; justify-content:flex-end; margin-top:1rem}
 .modal .btn{padding:.6rem 1rem; border-radius:8px; border:1px solid #FF7A1A ; background:#FF7A1A ; cursor:pointer}
 
