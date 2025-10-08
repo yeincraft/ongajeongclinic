@@ -37,7 +37,7 @@
       --text: #333;
     }
     * {
-      margin: 0;l
+      margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: "Nunito", sans-serif;
@@ -252,6 +252,24 @@
 .slider-nav a:hover {
   opacity: 1;
 }
+
+/* ── Modal ───────────────────────────── */
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.45);
+  display:none; align-items:center; justify-content:center; z-index:9999;
+}
+.modal-backdrop.is-open{ display:flex; }
+.modal{
+  width:min(92vw,560px); background:#fff; border-radius:14px;
+  box-shadow:0 10px 40px rgba(0,0,0,.25); padding:1.5rem 2rem;
+}
+.modal header{display:flex; justify-content:space-between; align-items:center; margin-bottom:.75rem}
+.modal h3{font-size:1.25rem; margin:0; color:var(--primary);}
+.modal .body{color:#444; line-height:1.55; font-size:1rem;
+padding-left: 2rem}
+.modal .actions{display:flex; gap:.5rem; justify-content:flex-end; margin-top:1rem}
+.modal .btn{padding:.6rem 1rem; border-radius:8px; border:1px solid #FF7A1A ; background:#FF7A1A ; cursor:pointer}
+
   </style>
 </head>
 <body>
@@ -502,6 +520,42 @@ function submitForm(e){
   start();
 })();
 </script>
+
+<!-- ── Auto-open Modal ───────────────── -->
+<div id="promo-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="promo-title">
+  <div class="modal" role="document">
+    <header>
+      <h3 id="promo-title">🌕 추석 휴무 안내</h3>
+    </header>
+    <div class="body">
+      <br>10월 6일(월) ~ 10월 9일(목) 휴무입니다. <b><br>10월 10일(금)부터는 정상 진료합니다.</b><br><br>즐거운 한가위 보내시길 바랍니다!</p>
+    </div>
+    <div class="actions">
+      <button class="btn" id="modal-close">확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const $backdrop = document.getElementById('promo-modal');
+  const $close = document.getElementById('modal-close');
+  const $later = document.getElementById('modal-later');
+
+  function openModal(){ $backdrop.classList.add('is-open'); }
+  function closeModal(){ $backdrop.classList.remove('is-open'); }
+
+  // 페이지 로드 시 자동 오픈
+  window.addEventListener('DOMContentLoaded', openModal);
+
+  // 닫기/나중에
+  [$close, $later].forEach(btn => btn.addEventListener('click', closeModal));
+   // ESC로 닫기
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+})();
+</script>
+
 
 </body>
 </html>
