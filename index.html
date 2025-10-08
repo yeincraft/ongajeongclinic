@@ -220,6 +220,12 @@
   aspect-ratio: 16 / 9;   /* PC 기준 비율 유지 */
   overflow: hidden;
   border-radius: 0.5rem;
+  display: flex;
+  overflow-x: auto;         /* ← auto(또는 scroll). hidden이면 안 넘어감 */
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .slider img {
@@ -228,6 +234,7 @@
   object-fit: cover;       /* 이미지 비율 유지하며 꽉 채움 */
   object-position: center; /* 중앙 기준으로 자르기 */
   flex: 0 0 100%;
+  scroll-snap-align: start;
 }
 
 .slider-nav {
@@ -453,14 +460,14 @@ function submitForm(e){
 (function(){
   const slider = document.querySelector('.slider');
   if (!slider) return;
-  const slides = slider.querySelectorAll(':scope > *');
+  const slides = slider.querySelectorAll(':scope > img');
   if (slides.length <= 1) return;
 
   // 사용성: 모션 줄이기 설정이면 자동재생 끔
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   let i = 0;
-  const INTERVAL = 4000; // 4초마다 다음 슬라이드
+  const INTERVAL = 2500; // 4초마다 다음 슬라이드
   let timer;
 
   const go = (idx) => {
@@ -487,8 +494,8 @@ function submitForm(e){
     document.hidden ? stop() : start();
   });
 
-  // 스크롤(수동 스와이프) 후 인덱스 동기화
-  let t;
+  // 수동 스와이프 후 인덱스 동기화
+let t;
   slider.addEventListener('scroll', () => {
     stop();
     clearTimeout(t);
@@ -506,13 +513,13 @@ function submitForm(e){
   });
 
   // (선택) 점 네비와 동기화
-  const dots = document.querySelectorAll('.slider-nav a');
+const dots = document.querySelectorAll('.slider-nav a');
   function updateDots(){
     dots.forEach((d, idx) => d.classList.toggle('is-active', idx === i));
   }
   dots.forEach((d, idx) => {
     d.addEventListener('click', (e) => {
-      e.preventDefault(); // #앵커 점프 대신 내부 스크롤만
+      e.preventDefault();
       go(idx);
     });
   });
@@ -540,7 +547,6 @@ function submitForm(e){
 (function(){
   const $backdrop = document.getElementById('promo-modal');
   const $close = document.getElementById('modal-close');
-  const $later = document.getElementById('modal-later');
 
   function openModal(){ $backdrop.classList.add('is-open'); }
   function closeModal(){ $backdrop.classList.remove('is-open'); }
@@ -549,7 +555,8 @@ function submitForm(e){
   window.addEventListener('DOMContentLoaded', openModal);
 
   // 닫기/나중에
-  [$close, $later].forEach(btn => btn.addEventListener('click', closeModal));
+  $close && $close.addEventListener('click', closeModal);
+
    // ESC로 닫기
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
 
