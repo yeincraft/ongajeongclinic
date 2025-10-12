@@ -286,8 +286,8 @@ padding-left: 1rem}
       <nav>
         <a href="#services">진료과목</a>
         <a href="#doctors">의료진</a>
-        <a href="#testimonials">후기</a>
         <a href="#info">안내</a>
+        <a href="#testimonials">후기</a>
         <a href="#contact">예약 및 문의</a>
       </nav>
     </div>
@@ -349,7 +349,7 @@ padding-left: 1rem}
   </section>
 
   <section id="doctors" class="doctors">
-    <h2>의료진 소개</h2>
+    <h2>의료진</h2>
     <div class="profiles">
       <div class="profile">
         <img src="doctor.jpeg" alt="Doctor" />
@@ -369,7 +369,45 @@ padding-left: 1rem}
     </div>
   </section>
 
-  <section id="testimonials" class="testimonials">
+ 
+
+  <section id="info" class="info">
+    <h2>안내</h2>
+    <div class="wrapper">
+      <p class="tel">051-715-7582 (치료빨리)</p>
+      <div class="address-box"><div class="address">부산광역시 연제구 명륜로 10, 한양타워빌딩 2층</div><button class="copy-btn" onclick="copyAddress()">복사</button></div>
+      <div class="hour">
+        <ul>
+          <li><b>월 · 화 · 목 · 금</b><span>AM 09:00 ~ PM 06:30</span></li>
+          <li><b>수 요 일</b><span>AM 09:00 ~ PM 01:00</span></li>
+          <li><b>토 요 일</b><span>AM 09:00 ~ PM 01:00</span></li>
+          <li><b>일 요 일</b><span>정기휴무</span></li>
+          <li><b>점심시간</b><span>PM 01:00 ~ PM 02:00</span></li>
+        </ul>
+        <p>* 대체공휴일은 오전 진료(9~13시)를 합니다.</p>
+      </div>
+      <!-- 이용 안내: 주차 / 엘리베이터 -->
+<div class="facilities">
+  <div class="facility">
+    <div class="icon" aria-hidden="true">🅿️</div>
+    <div class="content">
+      <b>주차 안내</b>
+      <p>건물 1층 주차장 이용 가능 (1시간 무료) · 병원 방문 시 안내데스크에서 차량번호 등록해주세요.</p>
+    </div>
+  </div>
+  <div class="facility">
+    <div class="icon" aria-hidden="true">🛗</div>
+    <div class="content">
+      <b>엘리베이터 안내</b>
+      <p>1층 주차장 → 엘리베이터 이용 → <b>2층</b>에서 하차 후 우측으로 20m 이동하면 원내 입구가 있습니다.</p>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </section>
+
+ <section id="testimonials" class="testimonials">
     <h2>후기</h2>
     <div class="testimonial-list">
       <div class="testimonial">
@@ -387,23 +425,6 @@ padding-left: 1rem}
     </div>
   </section>
 
-  <section id="info" class="info">
-    <h2>진료시간 안내</h2>
-    <div class="wrapper">
-      <p class="tel">051-715-7582 (치료빨리)</p>
-      <div class="address-box"><div class="address">부산광역시 연제구 명륜로 10, 한양타워빌딩 2층</div><button class="copy-btn" onclick="copyAddress()">복사</button></div>
-      <div class="hour">
-        <ul>
-          <li><b>월 · 화 · 목 · 금</b><span>AM 09:00 ~ PM 06:30</span></li>
-          <li><b>수 요 일</b><span>AM 09:00 ~ PM 01:00</span></li>
-          <li><b>토 요 일</b><span>AM 09:00 ~ PM 01:00</span></li>
-          <li><b>일 요 일</b><span>정기휴무</span></li>
-          <li><b>점심시간</b><span>PM 01:00 ~ PM 02:00</span></li>
-        </ul>
-        <p>* 대체공휴일은 오전 진료(9~13시)를 합니다.</p>
-      </div>
-    </div>
-  </section>
 
   <section id="contact" class="contact">
       <h2>예약 및 문의</h2>
@@ -552,7 +573,7 @@ const dots = document.querySelectorAll('.slider-nav a');
   function closeModal(){ $backdrop.classList.remove('is-open'); }
 
   // 페이지 로드 시 자동 오픈
-  window.addEventListener('DOMContentLoaded', openModal);
+  // window.addEventListener('DOMContentLoaded', openModal);
 
   // 닫기/나중에
   $close && $close.addEventListener('click', closeModal);
